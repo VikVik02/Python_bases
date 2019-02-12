@@ -9,8 +9,20 @@
 класса метод __dict__ и проверить какой будет результат применения этого метода.
 А комментариях к заданию написать тип результата на русском языке.
 '''
+'''
+class Worker:
+    def __init__(self, name, profession, salary, add):
+        self.name = name
+        self.profession = profession
+        self._income = {'salary': salary, 'add': add}
 
 
+
+worker1 = Worker('Михайлов Евгений Владиславович', 'слесарь', 30000, 5000)
+
+print(worker1.__dict__)
+# тип - словарь
+'''
 '''
 Задача-2: Продолжить работу над задачей 1. Создать на основе класса Worker класс
 Position (реализовать наследование). Добавить классу уникальный атрибут -
@@ -19,14 +31,62 @@ Position (реализовать наследование). Добавить к�
 Реализовать обращение к этому атриубуту, как к свойству.
 Проверить работу всей структуры на реальных данных, вывести результаты.
 '''
+'''
+class Worker:
+    def __init__(self, name, profession, salary, add):
+        self.name = name
+        self.profession = profession
+        self._income = {'salary': salary, 'add': add}
+
+class Position(Worker):
+    def __init__(self, name, profession, salary, add, premium):
+        Worker.__init__(self, name, profession, salary, add)
+        self.premium = premium
+
+    @property
+    def salary_with_prem(self):
+        return(self._income['salary'] + self._income['salary'] * (self.premium/100))
 
 
+position = Position('Михайлов Евгений Владиславович', 'слесарь', 30000, 5000, 10)
+
+print(position.salary_with_prem)
+'''
 '''
 Задача-3: Продолжить работу над задачей 2.  Реализовать полиморфизм
 использования знака + в методах 1) вывода полного имени работника и возраста
 2) вычисления общего дохода работника с учетом надбавки .
 Проверить работу всей структуры на реальных данных, вывести результаты.
 '''
+class Worker:
+    def __init__(self, name, surname, profession, salary, add):
+        self.name = name
+        self.surname = surname
+        self.profession = profession
+        self._income = {'salary': salary, 'add': add}
 
+class Position(Worker):
+    def __init__(self, name, surname, profession, salary, add, premium):
+        Worker.__init__(self, name, surname, profession, salary, add)
+        self.premium = premium
+
+    @property
+    def salary_with_prem(self):
+        self.sal_w_p = self._income['salary'] + self._income['salary'] * (self.premium/100)
+        return self.sal_w_p
+
+    def salary_with_add(self):
+        self.salary_with_add = self.sal_w_p + self.add
+        return self.salary_with_add
+
+    def get_full_name(self):
+        return self.name + ' ' + self.surname
+
+
+position = Position('Евгений Владиславович', 'Михайлов', 'слесарь', 30000, 5000, 10)
+
+print(position.salary_with_add)
+print(position.salary_with_prem)
+print(position.get_full_name)
 
 
